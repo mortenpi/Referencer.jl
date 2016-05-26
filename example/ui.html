@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+    <style>
+    .exported {
+        color: green;
+    }
+    </style>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.js"></script>
+    <script>
+    var json_request;
+
+    function json_success(json) {
+        console.log(json)
+        $('body').append('<h1>'+json.name+'</h1>');
+        $('body').append('<table id="list"></table>');
+
+        row = $('<tr></tr>');
+        row.append('<th>Name</th>');
+        row.append('<th>Type</th>');
+        row.append('<th>Status</th>');
+        $('#list').append(row);
+
+        json.names.forEach(function(name,idx){
+            row = $('<tr class="'+(name.exported ? 'exported' : 'unexported')+'"></tr>');
+            row.append('<td>'+name.name+'</td>');
+            row.append('<td>'+name.objtype+'</td>');
+            row.append('<td>'+(name.exported ? 'exported' : 'unexported')+'</td>');
+            $('#list').append(row);
+        })
+    }
+
+    $(function(){
+        console.log('ready() called');
+        json_request = $.getJSON('test.json', json_success);
+    });
+    </script>
+</head>
+<body>
+</body>
+</html>
